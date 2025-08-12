@@ -144,7 +144,27 @@ public class NBTTooltip implements ClientModInitializer {
 		return newttip;
 	}
 
-	public static void onInjectTooltip(ItemStack stack, Item.TooltipContext context, TooltipType type, List<Text> list) {
+    private static NbtCompound removeLoreFromTag(NbtCompound tag) {
+        NbtCompound copy = tag.copy();
+
+        if (copy.contains("minecraft:lore")) {
+            copy.remove("minecraft:lore");
+        }
+
+        return copy;
+    }
+
+    private static NbtCompound removeDisplayNameFromTag(NbtCompound tag) {
+        NbtCompound copy = tag.copy();
+
+        if (copy.contains("minecraft:custom_name")) {
+            copy.remove("minecraft:custom_name");
+        }
+
+        return copy;
+    }
+
+    public static void onInjectTooltip(ItemStack stack, Item.TooltipContext context, TooltipType type, List<Text> list) {
 		handleClipboardCopy(stack);
 		if (ModConfig.INSTANCE.triggerType.shouldShowTooltip(context, type)) {
 			if (autoscroll_locks > 0) autoscroll_locks = 2;
@@ -159,14 +179,20 @@ public class NBTTooltip implements ClientModInitializer {
 			ArrayList<Text> ttip = new ArrayList<>(lines);
 			NbtCompound tag = encodeStack(stack, context.getRegistryLookup().getOps(NbtOps.INSTANCE));
 			if (!tag.isEmpty()) {
+                if (ModConfig.INSTANCE.hideLore) {
+                    tag = removeLoreFromTag(tag);
+                }
+                if (ModConfig.INSTANCE.hideDisplayName) {
+                    tag = removeDisplayNameFromTag(tag);
+                }
 				if (ModConfig.INSTANCE.showDelimiters) {
 					ttip.add(Text.literal(Formatting.DARK_PURPLE + " - nbt start -"));
 				}
-				if (ModConfig.INSTANCE.compress) {
-					ttip.add(Text.literal(FORMAT + tag));
-				} else {
-					getRenderingEngine().parseTagToList(ttip, tag, ModConfig.INSTANCE.splitLongLines);
-				}
+                if (ModConfig.INSTANCE.compress) {
+                    ttip.add(Text.literal(FORMAT + tag));
+                } else {
+                    getRenderingEngine().parseTagToList(ttip, tag, ModConfig.INSTANCE.splitLongLines);
+                }
 				if (ModConfig.INSTANCE.showDelimiters) {
 					ttip.add(Text.literal(Formatting.DARK_PURPLE + " - nbt end -"));
 				}
