@@ -236,7 +236,7 @@ public class NBTTooltip implements ClientModInitializer {
 
 	private static void handleClipboardCopy(ItemStack stack) {
 		Minecraft mc = Minecraft.getInstance();
-		if (mc.gui.screen() != null) {
+		if (mc.screen != null) {
 			if (isPressed(mc, COPY_TO_CLIPBOARD)) {
 				if (!flipflop_key_copy) {
 					flipflop_key_copy = true;
@@ -259,9 +259,9 @@ public class NBTTooltip implements ClientModInitializer {
 		});
 		try {
 			mc.keyboardHandler.setClipboard(sb.toString());
-			SystemToast.add(mc.gui.toastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("nbttooltip.copied_to_clipboard"), Component.translatable("nbttooltip.object_details", name));
+			SystemToast.add(mc.getToastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("nbttooltip.copied_to_clipboard"), Component.translatable("nbttooltip.object_details", name));
 		} catch (Exception e) {
-			SystemToast.add(mc.gui.toastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("nbttooltip.copy_failed"), Component.literal(e.getMessage()));
+			SystemToast.add(mc.getToastManager(), SystemToast.SystemToastId.PERIODIC_NOTIFICATION, Component.translatable("nbttooltip.copy_failed"), Component.literal(e.getMessage()));
 			e.printStackTrace();
 		}
 	}
