@@ -10,7 +10,8 @@ version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+	// Include the Minecraft version in the jar name, e.g. nbttooltip-mc26.3-1.2.3+fork.1.jar
+	archivesName = "${project.archives_base_name}-mc${project.minecraft_version}"
 }
 
 repositories {
