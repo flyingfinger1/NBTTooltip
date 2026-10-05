@@ -4,7 +4,7 @@ A Minecraft (Fabric) mod that shows an item's **NBT / data components** directly
 
 > **This is a fork.** Original mod by **Zabi94**, previously updated by **tricrotism**. This fork by **flyingfinger1** keeps it working on current Minecraft versions — **1.21.8 through 26.2** — including the Yarn → Mojang-mappings migration that Minecraft 26.x requires.
 >
-> Licensed under **MIT** (see [`LICENSE`](LICENSE), original copyright retained). Upstream: <https://github.com/tricrotism/NBTTooltip>
+> **License status: unresolved — see the License section below.** Upstream: <https://github.com/tricrotism/NBTTooltip>
 
 ## Downloads
 
@@ -41,4 +41,6 @@ There is one build per Minecraft generation (each on its own branch). Grab the m
 - **tricrotism** — previous fork / updates
 - **flyingfinger1** — this multi-version fork (1.21.8 – 26.2)
 
-Released under the MIT License.
+## License
+
+The original author's licensing is contradictory and unresolved: upstream `master` carries an MIT license, but the actual code branches — and the `LICENSE` file retained here — state **"Copyright (c) 2018 zabi94 — All rights reserved"**. Redistribution rights are therefore unconfirmed. Clarification has been requested from the original author in [zabi94/NBTTooltip#64](https://github.com/zabi94/NBTTooltip/issues/64). Until it is resolved, please treat this fork as **all rights reserved** and do not redistribute the built mod. The original `LICENSE` file is kept unchanged.
