@@ -3,8 +3,6 @@ package zabi.minecraft.nbttooltip;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
@@ -43,10 +41,10 @@ public class NBTTooltip implements ClientModInitializer {
 	// not plain translation-key strings. Its label resolves to "key.category.nbttooltip.general".
 	public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("nbttooltip", "general"));
 
-	public static KeyMapping COPY_TO_CLIPBOARD = new KeyMapping("key.nbttooltip.copy", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, CATEGORY);
-	public static KeyMapping TOGGLE_NBT = new KeyMapping("key.nbttooltip.toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT, CATEGORY);
-	public static KeyMapping SCROLL_UP = new KeyMapping("key.nbttooltip.scroll_up", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, CATEGORY);
-	public static KeyMapping SCROLL_DOWN = new KeyMapping("key.nbttooltip.scroll_down", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, CATEGORY);
+	public static KeyMapping COPY_TO_CLIPBOARD = new KeyMapping("key.nbttooltip.copy", InputConstants.Type.KEYBOARD, InputConstants.KEY_RIGHT, CATEGORY);
+	public static KeyMapping TOGGLE_NBT = new KeyMapping("key.nbttooltip.toggle", InputConstants.Type.KEYBOARD, InputConstants.KEY_LEFT, CATEGORY);
+	public static KeyMapping SCROLL_UP = new KeyMapping("key.nbttooltip.scroll_up", InputConstants.Type.KEYBOARD, InputConstants.KEY_UP, CATEGORY);
+	public static KeyMapping SCROLL_DOWN = new KeyMapping("key.nbttooltip.scroll_down", InputConstants.Type.KEYBOARD, InputConstants.KEY_DOWN, CATEGORY);
 
 	public static boolean flipflop_key_copy = false;
 	public static boolean flipflop_key_toggle = false;
@@ -121,24 +119,26 @@ public class NBTTooltip implements ClientModInitializer {
 	}
 
 	private static boolean isPressed(Minecraft mc, KeyMapping key) {
-		return !key.isUnbound() && InputConstants.isKeyDown(mc.getWindow(), KeyMappingHelper.getBoundKeyOf(key).getValue());
+		return !key.isUnbound() && InputConstants.isKeyDown(KeyMappingHelper.getBoundKeyOf(key).getValue());
 	}
 
 	// Replacements for the Screen.has*Down() statics removed in 1.21.9+.
+	// Since 26.3, InputConstants.isKeyDown takes only the keycode (no Window),
+	// and the GLFW key constants are exposed on InputConstants itself.
 	private static boolean isKeyHeld(int keyCode) {
-		return InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), keyCode);
+		return InputConstants.isKeyDown(keyCode);
 	}
 
 	private static boolean hasShiftDown() {
-		return isKeyHeld(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyHeld(GLFW.GLFW_KEY_RIGHT_SHIFT);
+		return isKeyHeld(InputConstants.KEY_LSHIFT) || isKeyHeld(InputConstants.KEY_RSHIFT);
 	}
 
 	private static boolean hasControlDown() {
-		return isKeyHeld(GLFW.GLFW_KEY_LEFT_CONTROL) || isKeyHeld(GLFW.GLFW_KEY_RIGHT_CONTROL);
+		return isKeyHeld(InputConstants.KEY_LCONTROL) || isKeyHeld(InputConstants.KEY_RCONTROL);
 	}
 
 	private static boolean hasAltDown() {
-		return isKeyHeld(GLFW.GLFW_KEY_LEFT_ALT) || isKeyHeld(GLFW.GLFW_KEY_RIGHT_ALT);
+		return isKeyHeld(InputConstants.KEY_LALT) || isKeyHeld(InputConstants.KEY_RALT);
 	}
 
 	public static ArrayList<Component> transformTtip(ArrayList<Component> ttip, int lines) {

@@ -16,6 +16,7 @@ There is one build per Minecraft generation (each on its own branch). Grab the m
 | 1.21.9 – 1.21.11 | `fabric/1.21.11` | Yarn | 21 |
 | 26.1.x | `fabric/26.1` | Mojang | 25 |
 | 26.2 | `fabric/26.2` | Mojang | 25 |
+| 26.3 | `fabric/26.3` | Mojang | 25 |
 
 > Minecraft 26.x ships unobfuscated and needs **Java 25**; Fabric discontinued Yarn after 1.21.11, so the 26.x builds use Mojang mappings.
 
